@@ -24,7 +24,7 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog \
-    qml\*
+    qml/*.qml
 
 RESOURCES += \
     main.qrc

@@ -22,7 +22,6 @@ PageStackWindow {
 
     Menu {
         id: myMenu
-        visualParent: pageStack
         MenuLayout {
             MenuItem { text: qsTr("Sample menu item") }
         }

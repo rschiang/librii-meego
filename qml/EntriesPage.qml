@@ -5,6 +5,7 @@ import com.nokia.extras 1.1
 Page {
     property string corpusId
     property alias corpusName: header.text
+    property variant modelData
 
     tools: ToolBarLayout {
         ToolIcon {
@@ -32,6 +33,8 @@ Page {
                 left: parent.paddingItem.left
                 right: parent.paddingItem.right
                 verticalCenter: parent.paddingItem.verticalCenter
+                leftMargin: -UiConstants.ButtonSpacing
+                rightMargin: -UiConstants.ButtonSpacing
             }
         }
     }
@@ -67,7 +70,7 @@ Page {
                         }
 
                         font: UiConstants.SmallTitleFont
-                        text: "§" + model.id
+                        text: model.id
                     }
 
                     Label {
@@ -102,8 +105,12 @@ Page {
                     if (xhr.readyState == xhr.DONE) {
                         var obj = JSON.parse(xhr.responseText)
                         for (var id in obj) {
-                            listView.model.append({id: id, text: obj[id]})
+                            listView.model.append({
+                                id: isNaN(id) ? id : "§"+id,
+                                text: obj[id]
+                            })
                         }
+                        modelData = obj
                     }
                 }
 

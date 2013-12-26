@@ -4,6 +4,7 @@ import com.nokia.meego 1.0
 TextField {
     id: searchField
     platformSipAttributes: sipAttributes
+    placeholderText: "搜尋"
 
     SipAttributes {
         id: sipAttributes

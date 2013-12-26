@@ -3,12 +3,11 @@ import com.nokia.meego 1.0
 import com.nokia.extras 1.1
 
 Page {
-    tools: commonTools
+    //tools: commonTools
 
     PageHeader {
         id: header
         text: "Librii"
-        z: 100
     }
 
     SearchField {
@@ -19,7 +18,6 @@ Page {
             right: parent.right
             margins: UiConstants.DefaultMargin
         }
-        placeholderText: "搜尋"
     }
 
     Item {
@@ -40,18 +38,26 @@ Page {
                 rightMargin: UiConstants.DefaultMargin
             }
 
-            delegate: ListDelegate {
-                MoreIndicator {
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
+            delegate: Component {
+                ListDelegate {
+                    MoreIndicator {
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    onClicked: {
+                        pageStack.push("qrc:/qml/EntriesPage.qml", {
+                                           corpusId: model.corpusId, corpusName: model.title
+                                       })
+                    }
                 }
             }
 
             section.property: "title"
             model: ListModel {
-                ListElement { iconSource: "image://theme/icon-m-content-document"; title: "憲法" }
-                ListElement { iconSource: "image://theme/icon-m-content-document"; title: "民法" }
-                ListElement { iconSource: "image://theme/icon-m-content-document"; title: "刑法" }
+                ListElement { iconSource: "image://theme/icon-m-content-document"; title: "憲法"; corpusId: "constitution" }
+                ListElement { iconSource: "image://theme/icon-m-content-document"; title: "民法"; corpusId: "civil" }
+                ListElement { iconSource: "image://theme/icon-m-content-document"; title: "刑法"; corpusId: "criminal" }
                 ListElement { iconSource: "image://theme/icon-m-content-document"; title: "民事訴訟法" }
                 ListElement { iconSource: "image://theme/icon-m-content-document"; title: "刑事訴訟法" }
                 ListElement { iconSource: "image://theme/icon-m-content-document"; title: "社會秩序維護法" }

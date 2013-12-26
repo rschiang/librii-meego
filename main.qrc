@@ -7,5 +7,7 @@
         <file>qml/FastScroll.js</file>
         <file>qml/FastScroll.qml</file>
         <file>qml/FastScrollStyle.qml</file>
+        <file>qml/EntriesPage.qml</file>
+        <file>codes/criminal.json</file>
     </qresource>
 </RCC>

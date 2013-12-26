@@ -4,5 +4,8 @@
         <file>qml/MainPage.qml</file>
         <file>qml/PageHeader.qml</file>
         <file>qml/SearchField.qml</file>
+        <file>qml/FastScroll.js</file>
+        <file>qml/FastScroll.qml</file>
+        <file>qml/FastScrollStyle.qml</file>
     </qresource>
 </RCC>

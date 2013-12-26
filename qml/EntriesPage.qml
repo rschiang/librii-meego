@@ -3,6 +3,8 @@ import com.nokia.meego 1.0
 import com.nokia.extras 1.1
 
 Page {
+    id: page
+
     property string corpusId
     property alias corpusName: header.text
     property variant modelData
@@ -92,6 +94,8 @@ Page {
 
             section.property: "id"
             model: ListModel {}
+
+            cacheBuffer: page.height
         }
 
         FastScroll {

@@ -72,7 +72,7 @@ Page {
                         }
 
                         font: UiConstants.SmallTitleFont
-                        text: model.id
+                        text: model.article
                     }
 
                     Label {
@@ -92,7 +92,7 @@ Page {
                 }
             }
 
-            section.property: "id"
+            section.property: "article"
             model: ListModel {}
 
             cacheBuffer: page.height
@@ -122,7 +122,6 @@ Page {
                             var xxhr = new XMLHttpRequest()
                             xxhr.onreadystatechange = function() {
                                 if (xxhr.readyState == xxhr.DONE) {
-                                    console.log(xxhr.responseText)
                                     var response = JSON.parse(xxhr.responseText)
                                     if (!response.length) return
 
@@ -131,7 +130,7 @@ Page {
                                         listView.model.append({
                                             id: entry.article,
                                             article: isNaN(entry.article) ? entry.article : "§"+entry.article,
-                                            text: entry.content,
+                                            text: entry.content.trim(),
                                             date: entry.passed_date
                                         })
                                     }

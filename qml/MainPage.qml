@@ -52,8 +52,8 @@ ListViewPage {
                 }
 
                 onTextChanged: {
-                    if (!text.length) focus = false
-                    page.pinListHeader = (text.length > 0)
+                    if (text.length) showSuggestions(text)
+                    page.pinListHeader = (text.length > 0 && focus)
                 }
 
                 Keys.onReturnPressed: showSuggestions(text)

@@ -14,14 +14,13 @@ ListViewPage {
     listHeader: Component {
         Item {
             width: parent.width
-            height: UiConstants.ListItemHeightSmall
+            height: UiConstants.ListItemHeightDefault
 
             SearchField {
                 id: searchField
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: UiConstants.DefaultMargin
                     verticalCenter: parent.verticalCenter
                 }
 

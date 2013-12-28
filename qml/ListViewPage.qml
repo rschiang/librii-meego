@@ -49,36 +49,46 @@ Page {
 
                 width: parent.width
                 height: internal.listHeaderVisible ? listHeaderLoader.height : 0
-                opacity: internal.listHeaderVisible ? 1 : 0
                 y: internal.listYPosition < 0 ? -height : -height - internal.listYPosition
 
                 Behavior on height {
-                    SpringAnimation {
-                        spring: 2; damping: 0.2; epsilon: 0.25
+                    SmoothedAnimation {
+                        duration: 200
+                        easing.type: Easing.OutBounce
                     }
                 }
 
-                Behavior on opacity {
-                    SmoothedAnimation {
-                        velocity: 2
-                    }
+                opacity: 0
+                NumberAnimation {
+                    id: visibleAnimation
+                    target: listHeaderWrapper
+                    property: "opacity"
+                    duration: 200
+                    to: 1
                 }
 
                 Loader {
                     id: listHeaderLoader
+                    width: parent.width
                     sourceComponent: page.listHeader
+                }
+
+                Connections {
+                    target: internal
+                    onListHeaderVisibleChanged: {
+                        if (internal.listHeaderVisible)
+                            visibleAnimation.start()
+                        else opacity = 0
+                    }
                 }
             }
 
-            Connections {
-                target: listView.visibleArea
-                onYPositionChanged: {
-                    if ((!listView.flicking && listView.moving) &&
-                            internal.listYPosition < 0 &&
-                            !internal.listHeaderVisible) {
-                        internal.showListHeader = true
-                        listHeaderTimer.start()
-                    }
+            onContentYChanged: {
+                if ((!listView.flicking && listView.moving) &&
+                        internal.listYPosition < 0 &&
+                        !internal.listHeaderVisible) {
+                    internal.showListHeader = true
+                    listHeaderTimer.start()
                 }
             }
 

@@ -2,11 +2,17 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.1
 
-Page {
+ListViewPage {
     id: page
 
     property string corpus
     property variant infoData
+
+    header: Component {
+        PageHeader {
+            text: corpus
+        }
+    }
 
     tools: ToolBarLayout {
         ToolIcon {
@@ -24,91 +30,51 @@ Page {
         }
     }
 
-    PageHeader {
-        id: header
-        text: corpus
+    listView {
+        delegate: Component {
+            Item {
+                width: parent.width
+                height: entryText.implicitHeight + UiConstants.DefaultMargin
 
-        SearchField {
-            id: searchField
-            visible: false
-            anchors {
-                left: parent.paddingItem.left
-                right: parent.paddingItem.right
-                verticalCenter: parent.paddingItem.verticalCenter
-                leftMargin: -UiConstants.ButtonSpacing
-                rightMargin: -UiConstants.ButtonSpacing
+                Label {
+                    id: entryId
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        topMargin: UiConstants.DefaultMargin / 2
+                    }
+
+                    font: UiConstants.SmallTitleFont
+                    text: model.article
+                }
+
+                Label {
+                    id: entryText
+                    anchors {
+                        top: parent.top
+                        left: entryId.right
+                        right: parent.right
+                        topMargin: UiConstants.DefaultMargin / 2
+                        leftMargin: UiConstants.DefaultMargin
+                    }
+
+                    font: UiConstants.BodyTextFont
+                    text: model.text
+                }
+
             }
         }
+
+        section.property: "article"
+        model: ListModel { id: listModel }
     }
 
-    Item {
-        clip: true
-        anchors {
-            top: header.bottom
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-
-        ListView {
-            id: listView
-            anchors {
-                fill: parent
-                leftMargin: UiConstants.DefaultMargin
-                rightMargin: UiConstants.DefaultMargin
-            }
-
-            delegate: Component {
-                Item {
-                    width: parent.width
-                    height: entryText.implicitHeight + UiConstants.DefaultMargin
-
-                    Label {
-                        id: entryId
-                        anchors {
-                            top: parent.top
-                            left: parent.left
-                            topMargin: UiConstants.DefaultMargin / 2
-                        }
-
-                        font: UiConstants.SmallTitleFont
-                        text: model.article
-                    }
-
-                    Label {
-                        id: entryText
-                        anchors {
-                            top: parent.top
-                            left: entryId.right
-                            right: parent.right
-                            topMargin: UiConstants.DefaultMargin / 2
-                            leftMargin: UiConstants.DefaultMargin
-                        }
-
-                        font: UiConstants.BodyTextFont
-                        text: model.text
-                    }
-
-                }
-            }
-
-            section.property: "article"
-            model: ListModel {}
-
-            cacheBuffer: page.height
-        }
-
-        FastScroll {
-            listView: listView
-        }
-
-        BusyIndicator {
-            id: indicator
-            anchors.centerIn: parent
-            running: true
-            visible: running
-            style: BusyIndicatorStyle { size: "large" }
-        }
+    BusyIndicator {
+        id: indicator
+        anchors.centerIn: parent
+        running: true
+        visible: running
+        style: BusyIndicatorStyle { size: "large" }
     }
 
     Component.onCompleted: {
@@ -127,7 +93,7 @@ Page {
 
                                     for (var i = 0; i < response.length; i++) {
                                         var entry = response[i]
-                                        listView.model.append({
+                                        listModel.append({
                                             id: entry.article,
                                             article: isNaN(entry.article) ? entry.article : "§"+entry.article,
                                             text: entry.content.trim(),

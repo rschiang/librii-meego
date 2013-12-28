@@ -53,7 +53,7 @@ ListViewPage {
 
                 onTextChanged: {
                     if (text.length) showSuggestions(text)
-                    page.pinListHeader = (text.length > 0 && focus)
+                    page.pinListHeader = (text.length > 0 || focus)
                 }
 
                 Keys.onReturnPressed: showSuggestions(text)
@@ -82,5 +82,13 @@ ListViewPage {
                 }
             }
         }
+    }
+
+    Component.onCompleted: {
+        var bookmarks = ["中華民國憲法", "中華民國刑法", "民法第一編總則", "民法第二編債", "民法第三編物權", "民法第四編親屬", "民法第五編繼承"]
+        for (var i = 0; i < bookmarks.length; i++)
+            listModel.append({ name: bookmarks[i], title: bookmarks[i],
+                               iconSource: "image://theme/icon-m-content-favourites"
+                             })
     }
 }

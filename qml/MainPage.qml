@@ -23,10 +23,6 @@ ListViewPage {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
                 }
-
-                onTextChanged: {
-                    page.pinListHeader = (text.length > 0)
-                }
             }
         }
     }

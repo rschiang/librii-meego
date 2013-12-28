@@ -12,9 +12,9 @@ Page {
 
     QtObject {
         id: internal
-        property alias listYPosition: listView.contentY
         property bool showListHeader: false
-        property bool listHeaderVisible: pinListHeader | showListHeader
+        property bool listHeaderVisible: pinListHeader || showListHeader
+        property real listYPosition: listView.visibleArea.yPosition * Math.max(listView.height, listView.contentHeight)
     }
 
     Loader {
@@ -49,12 +49,12 @@ Page {
 
                 width: parent.width
                 height: internal.listHeaderVisible ? listHeaderLoader.height : 0
-                y: internal.listYPosition < 0 ? -height : -height - internal.listYPosition
+                y: internal.listYPosition < 0 ? -height : -internal.listYPosition - height
 
-                Behavior on height {
+                Behavior on y {
                     SmoothedAnimation {
                         duration: 200
-                        easing.type: Easing.OutBounce
+                        easing.type: Easing.InOutElastic
                     }
                 }
 
@@ -85,7 +85,7 @@ Page {
 
             onContentYChanged: {
                 if ((!listView.flicking && listView.moving) &&
-                        internal.listYPosition < 0 &&
+                        internal.listYPosition < -40 &&
                         !internal.listHeaderVisible) {
                     internal.showListHeader = true
                     listHeaderTimer.start()
@@ -101,6 +101,12 @@ Page {
 
         FastScroll {
             listView: listView
+            enabled: !pinListHeader
         }
+    }
+
+    onPinListHeaderChanged: {
+        if (listHeaderTimer.running)
+            listHeaderTimer.restart()
     }
 }

@@ -7,6 +7,7 @@ Item {
     id: root
 
     property ListView listView
+    property alias enabled: dragArea.enabled
 
     property int __topPageMargin: 0
     property int __bottomPageMargin: 0

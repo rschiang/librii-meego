@@ -11,5 +11,6 @@
         <file>codes/criminal.json</file>
         <file>codes/civil.json</file>
         <file>codes/constitution.json</file>
+        <file>qml/ListViewPage.qml</file>
     </qresource>
 </RCC>

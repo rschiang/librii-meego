@@ -5,9 +5,9 @@ import com.nokia.extras 1.1
 Page {
     id: page
 
-    property alias header: header
+    property alias header: headerLoader.sourceComponent
     property alias listView: listView
-    property alias listHeader: listHeaderLoader.sourceComponent
+    property Component listHeader
     property bool pinListHeader: false
 
     QtObject {
@@ -17,14 +17,18 @@ Page {
         property bool listHeaderVisible: pinListHeader | showListHeader
     }
 
-    PageHeader {
-        id: header
+    Loader {
+        id: headerLoader
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
     }
 
     Item {
         clip: true
         anchors {
-            top: header.bottom
+            top: headerLoader.bottom
             left: parent.left
             right: parent.right
             bottom: parent.bottom
@@ -41,6 +45,8 @@ Page {
             cacheBuffer: page.height
 
             header: Item {
+                id: listHeaderWrapper
+
                 width: parent.width
                 height: internal.listHeaderVisible ? listHeaderLoader.height : 0
                 opacity: internal.listHeaderVisible ? 1 : 0
@@ -60,6 +66,7 @@ Page {
 
                 Loader {
                     id: listHeaderLoader
+                    sourceComponent: page.listHeader
                 }
             }
 
@@ -77,7 +84,7 @@ Page {
 
             Timer {
                 id: listHeaderTimer
-                interval: UiConstants.RefreshTimeout
+                interval: 5000
                 onTriggered: internal.showListHeader = false
             }
         }

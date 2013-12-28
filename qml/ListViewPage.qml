@@ -9,6 +9,7 @@ Page {
     property alias listView: listView
     property Component listHeader
     property bool pinListHeader: false
+    property alias listHeaderVisible: internal.listHeaderVisible
 
     QtObject {
         id: internal
@@ -48,7 +49,7 @@ Page {
                 id: listHeaderWrapper
 
                 width: parent.width
-                height: internal.listHeaderVisible ? listHeaderLoader.height : 0
+                height: listHeaderLoader.height
                 y: internal.listYPosition < 0 ? -height : -internal.listYPosition - height
 
                 Behavior on y {
@@ -73,13 +74,34 @@ Page {
                     sourceComponent: page.listHeader
                 }
 
+                function showHeader() {
+                    height = listHeaderLoader.height
+                    visibleAnimation.start()
+                }
+
+                function hideHeader() {
+                    height = 0
+                    opacity = 0
+                }
+
                 Connections {
                     target: internal
                     onListHeaderVisibleChanged: {
                         if (internal.listHeaderVisible)
-                            visibleAnimation.start()
-                        else opacity = 0
+                            showHeader()
+                        else
+                            hideHeader()
                     }
+                }
+
+                Timer {
+                    id: hideTimer
+                    interval: 20
+                    onTriggered: hideHeader()
+                }
+
+                Component.onCompleted: {
+                    hideTimer.start()   // Workaround for list view incorrect scrolling
                 }
             }
 

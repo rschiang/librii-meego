@@ -23,6 +23,19 @@ ListViewPage {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
                 }
+
+                onTextChanged: {
+                    if (!text.length) focus = false
+                    page.pinListHeader = (text.length > 0)
+                }
+            }
+
+            Connections {
+                target: page
+                onListHeaderVisibleChanged: {
+                    if (!page.listHeaderVisible)
+                        searchField.focus = false
+                }
             }
         }
     }

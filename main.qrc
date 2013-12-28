@@ -1,16 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/main.qml</file>
-        <file>qml/MainPage.qml</file>
         <file>qml/PageHeader.qml</file>
         <file>qml/SearchField.qml</file>
         <file>qml/FastScroll.js</file>
         <file>qml/FastScroll.qml</file>
         <file>qml/FastScrollStyle.qml</file>
-        <file>qml/EntriesPage.qml</file>
-        <file>codes/criminal.json</file>
-        <file>codes/civil.json</file>
-        <file>codes/constitution.json</file>
         <file>qml/ListViewPage.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/MainPage.qml</file>
+        <file>qml/EntriesPage.qml</file>
     </qresource>
 </RCC>

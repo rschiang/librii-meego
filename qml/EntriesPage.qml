@@ -5,9 +5,8 @@ import com.nokia.extras 1.1
 Page {
     id: page
 
-    property string corpusId
-    property alias corpusName: header.text
-    property variant modelData
+    property string corpus
+    property variant infoData
 
     tools: ToolBarLayout {
         ToolIcon {
@@ -27,6 +26,7 @@ Page {
 
     PageHeader {
         id: header
+        text: corpus
 
         SearchField {
             id: searchField
@@ -101,24 +101,52 @@ Page {
         FastScroll {
             listView: listView
         }
+
+        BusyIndicator {
+            id: indicator
+            anchors.centerIn: parent
+            running: true
+            visible: running
+            style: BusyIndicatorStyle { size: "large" }
+        }
     }
 
     Component.onCompleted: {
         var xhr = new XMLHttpRequest()
         xhr.onreadystatechange = function() {
                     if (xhr.readyState == xhr.DONE) {
-                        var obj = JSON.parse(xhr.responseText)
-                        for (var id in obj) {
-                            listView.model.append({
-                                id: isNaN(id) ? id : "§"+id,
-                                text: obj[id]
-                            })
+                        var response = JSON.parse(xhr.responseText)
+                        if (response.isSuccess) {
+                            infoData = response.law
+
+                            var xxhr = new XMLHttpRequest()
+                            xxhr.onreadystatechange = function() {
+                                if (xxhr.readyState == xxhr.DONE) {
+                                    console.log(xxhr.responseText)
+                                    var response = JSON.parse(xxhr.responseText)
+                                    if (!response.length) return
+
+                                    for (var i = 0; i < response.length; i++) {
+                                        var entry = response[i]
+                                        listView.model.append({
+                                            id: entry.article,
+                                            article: isNaN(entry.article) ? entry.article : "§"+entry.article,
+                                            text: entry.content,
+                                            date: entry.passed_date
+                                        })
+                                    }
+                                    indicator.running = false
+                                }
+                            }
+                            xxhr.open("GET", "https://raw.github.com/g0v/laweasyread-data/master/data/law/"+response.law.lyID+"/article.json")
+                            xxhr.send()
                         }
-                        modelData = obj
+                        else
+                            indicator.running = false
                     }
                 }
 
-        xhr.open("GET", "qrc:/codes/" + corpusId + ".json")
+        xhr.open("GET", "http://laweasyread.herokuapp.com/api/law/" + corpus)
         xhr.send()
     }
 }

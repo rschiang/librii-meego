@@ -9,7 +9,6 @@ TextField {
     SipAttributes {
         id: sipAttributes
         actionKeyEnabled: true
-        actionKeyHighlighted: true
         actionKeyLabel: "搜尋"
         actionKeyIcon: "image://theme/icon-m-toolbar-search"
     }

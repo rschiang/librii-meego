@@ -113,8 +113,13 @@ ListViewPage {
                                     var response = JSON.parse(xxhr.responseText)
                                     if (!response.length) return
 
+                                    var articles = []
                                     for (var i = 0; i < response.length; i++) {
                                         var entry = response[i]
+                                        if (articles.indexOf(entry.article) >= 0)
+                                            continue
+
+                                        articles.push(entry.article)
                                         listModel.append({
                                             id: entry.article,
                                             article: isNaN(entry.article) ? entry.article : "§"+entry.article,

@@ -53,18 +53,9 @@ ListViewPage {
 
                 onTextChanged: {
                     if (text.length) showSuggestions(text)
-                    page.pinListHeader = (text.length > 0 || focus)
                 }
 
                 Keys.onReturnPressed: showSuggestions(text)
-            }
-
-            Connections {
-                target: page
-                onListHeaderVisibleChanged: {
-                    if (!page.listHeaderVisible)
-                        searchField.focus = false
-                }
             }
         }
     }

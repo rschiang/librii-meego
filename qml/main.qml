@@ -9,4 +9,8 @@ PageStackWindow {
     MainPage {
         id: mainPage
     }
+
+    Component.onCompleted: {
+        theme.colorScheme = "darkBlue"
+    }
 }

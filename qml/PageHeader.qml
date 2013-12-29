@@ -3,12 +3,10 @@ import com.nokia.meego 1.0
 
 Image {
     id: viewHeader
-    source: (interactive && mouseArea.pressed) ?
-              "image://theme/meegotouch-view-header-fixed-pressed" :
-              "image://theme/meegotouch-view-header-fixed"
+    source: internal.imageSource
     anchors.left: parent.left
     anchors.right: parent.right
-    height: appWindow.inPortrait ? UiConstants.HeaderDefaultHeightPortrait : UiConstants.HeaderDefaultHeightLandcape
+    height: internal.headerHeight
 
     // Properties
     property alias paddingItem: __paddingItem
@@ -16,6 +14,14 @@ Image {
     property alias interactive: mouseArea.enabled
 
     signal clicked()
+
+    QtObject {
+        id: internal
+        property int headerHeight: appWindow.inPortrait ? UiConstants.HeaderDefaultHeightPortrait : UiConstants.HeaderDefaultHeightLandcape
+        property string imageSource: (interactive && mouseArea.pressed) ?
+                                         "image://theme/" + theme.colorString + "meegotouch-view-header-fixed-pressed" :
+                                         "image://theme/" + theme.colorString + "meegotouch-view-header-fixed"
+    }
 
     MouseArea {
         id: mouseArea
@@ -35,6 +41,7 @@ Image {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             font: UiConstants.HeaderFont
+            color: "white"
         }
     }
 }

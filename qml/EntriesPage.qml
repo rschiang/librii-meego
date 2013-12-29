@@ -22,7 +22,6 @@ ListViewPage {
 
         ToolIcon {
             platformIconId: "toolbar-search"
-            onClicked: searchField.visible = !searchField.visible
         }
 
         ToolIcon {

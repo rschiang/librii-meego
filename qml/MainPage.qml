@@ -35,6 +35,8 @@ ListViewPage {
     header: Component {
         PageHeader {
             text: "Librii"
+            interactive: true
+            onClicked: pageStack.push("qrc:/qml/AboutPage.qml")
         }
     }
 

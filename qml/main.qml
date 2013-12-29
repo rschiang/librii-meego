@@ -4,10 +4,15 @@ import com.nokia.meego 1.0
 PageStackWindow {
     id: appWindow
 
-    initialPage: mainPage
+    initialPage: "qrc:/qml/MainPage.qml"
 
-    MainPage {
-        id: mainPage
+    ToolBarLayout {
+        id: naviTools
+        visible: false
+        ToolIcon {
+            platformIconId: "toolbar-back"
+            onClicked: pageStack.pop()
+        }
     }
 
     Component.onCompleted: {

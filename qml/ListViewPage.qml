@@ -26,13 +26,6 @@ Page {
             leftMargin: UiConstants.DefaultMargin
             rightMargin: UiConstants.DefaultMargin
         }
-
-        Behavior on height {
-            SmoothedAnimation {
-                duration: 200
-                easing.type: Easing.InOutElastic
-            }
-        }
     }
 
     Item {

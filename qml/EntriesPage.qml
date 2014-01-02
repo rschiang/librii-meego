@@ -56,7 +56,7 @@ ListViewPage {
         delegate: Component {
             Item {
                 width: parent.width
-                height: entryText.implicitHeight + UiConstants.DefaultMargin
+                height: entryTitle.height + entryText.implicitHeight + UiConstants.DefaultMargin
 
                 Label {
                     id: entryId
@@ -71,13 +71,23 @@ ListViewPage {
                 }
 
                 Label {
-                    id: entryText
+                    id: entryTitle
                     anchors {
-                        top: parent.top
+                        top: entryId.top
                         left: entryId.right
                         right: parent.right
-                        topMargin: UiConstants.DefaultMargin / 2
                         leftMargin: UiConstants.DefaultMargin
+                    }
+                    height: model.title.length > 0 ? implicitHeight : 0
+                    text: model.title
+                }
+
+                Label {
+                    id: entryText
+                    anchors {
+                        top: entryTitle.bottom
+                        left: entryTitle.left
+                        right: parent.right
                     }
 
                     font: UiConstants.BodyTextFont
@@ -123,6 +133,7 @@ ListViewPage {
                                         listModel.append({
                                             id: entry.article,
                                             article: isNaN(entry.article) ? entry.article : "§"+entry.article,
+                                            title: entry.title ? "("+ entry.title + ")" : "",
                                             text: entry.content.trim(),
                                             date: entry.passed_date
                                         })
@@ -138,7 +149,7 @@ ListViewPage {
                     }
                 }
 
-        xhr.open("GET", "http://laweasyread.herokuapp.com/api/law/" + corpus)
+        xhr.open("GET", "http://g0v-laweasyread.herokuapp.com/api/law/" + corpus)
         xhr.send()
     }
 }

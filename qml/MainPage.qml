@@ -28,7 +28,7 @@ ListViewPage {
                 }
             }
         }
-        xhr.open("GET", "http://laweasyread.herokuapp.com/api/suggestion/" + text)
+        xhr.open("GET", "http://g0v-laweasyread.herokuapp.com/api/suggestion/" + text)
         xhr.send()
     }
 

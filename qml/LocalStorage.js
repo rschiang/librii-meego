@@ -3,6 +3,7 @@
 var Db = function() {
     var db = openDatabaseSync("org.librii", "1", "Librii", 4 * 1024 * 1024)
     this.db = db
+    return this
 }
 
 Db.prototype.exec = function(it, params) {

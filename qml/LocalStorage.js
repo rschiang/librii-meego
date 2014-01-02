@@ -5,19 +5,30 @@ var Db = function() {
     this.db = db
 }
 
-Db.prototype.exec = function(it, params, tx) {
-            if (tx)
-                return tx.executeSql(it, val)
+Db.prototype.exec = function(it, params) {
+            if (this.tx)
+                return this.tx.executeSql(it, val)
             var result
             this.db.transaction(function(tx) { result = exec(it, val, tx) })
             return result
         }
 
-Db.prototype.query = function(it, val, tx) {
-            if (tx)
-                return tx.executeSql(it, val)
+Db.prototype.query = function(it, val) {
+            if (this.tx)
+                return this.tx.executeSql(it, val)
             var result
             this.db.readTransaction(function(tx) { result = query(it, val, tx) })
+            return result
+        }
+
+Db.prototype.batch = function(callback) {
+            var that = this
+            var result
+            this.db.transaction(function(tx) {
+                                    that.tx = tx
+                                    result = callback(that)
+                                    that.tx = undefined
+                                })
             return result
         }
 
@@ -30,7 +41,7 @@ Db.prototype.collection = function(name) {
             return new Collection(this.db, name)
         }
 
-Collection.prototype.find = function(selector, options, tx) {
+Collection.prototype.find = function(selector, options) {
             var statement, values
             statement = "SELECT "
             statement += (options.fields) ? options.fields.join() : "*"
@@ -54,14 +65,14 @@ Collection.prototype.find = function(selector, options, tx) {
                 }
             }
 
-            var q = this.db.query(statement, values, tx)
+            var q = this.db.query(statement, values)
             var result = []
             for (var i = 0; i < q.rows.length; i++)
                 result.push(q.rows.item(i))
             return result
         }
 
-Collection.prototype.update = function(selector, doc, tx) {
+Collection.prototype.update = function(selector, doc) {
             var values = []
             var statement = "UPDATE" + this.name
             for (var f in doc) {
@@ -77,11 +88,11 @@ Collection.prototype.update = function(selector, doc, tx) {
                 }
             }
 
-            var q = this.db.exec(statement, values, tx)
+            var q = this.db.exec(statement, values)
             return q.rowsAffected
         }
 
-Collection.prototype.insert = function(doc, tx) {
+Collection.prototype.insert = function(doc) {
             var fields = [], values = []
             for (var k in doc) {
                 fields.push(k)
@@ -95,11 +106,11 @@ Collection.prototype.insert = function(doc, tx) {
                 statement += (i ? ",?": "?")
             statement += ")"
 
-            var q = this.db.exec(statement, values, tx)
+            var q = this.db.exec(statement, values)
             return q.insertId
         }
 
-Collection.prototype.drop = function(selector, options, tx) {
+Collection.prototype.drop = function(selector, options) {
             var statement, values
             statement = "DELETE "
             statement += (options.fields) ? options.fields.join() : "*"
@@ -113,6 +124,6 @@ Collection.prototype.drop = function(selector, options, tx) {
                 }
             }
 
-            var q = this.db.exec(statement, values, tx)
+            var q = this.db.exec(statement, values)
             return q.rowsAffected
         }

@@ -41,6 +41,18 @@ Db.prototype.collection = function(name) {
             return new Collection(this.db, name)
         }
 
+Collection.prototype.create = function(fields) {
+            var statement = "CREATE TABLE IF NOT EXISTS " + this.name
+            statement += "("
+            for (var f in fields) {
+                statement += (values.length ? ", ": "")
+                statement += f
+                statement += fields[f].toUpperCase()
+            }
+            statement += ")"
+            return this.db.exec(statement, [])
+        }
+
 Collection.prototype.find = function(selector, options) {
             var values = []
             var statement = "SELECT "
@@ -109,7 +121,7 @@ Collection.prototype.insert = function(doc) {
             return q.insertId
         }
 
-Collection.prototype.drop = function(selector, options) {
+Collection.prototype.delete = function(selector, options) {
             var values = []
             var statement = "DELETE "
             statement += (options.fields) ? options.fields.join() : "*"
@@ -124,4 +136,9 @@ Collection.prototype.drop = function(selector, options) {
 
             var q = this.db.exec(statement, values)
             return q.rowsAffected
+        }
+
+Collection.prototype.drop = function() {
+            var statement = "DROP TABLE " + this.name
+            return this.db.exec(statement, [])
         }

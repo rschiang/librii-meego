@@ -42,13 +42,12 @@ Db.prototype.collection = function(name) {
         }
 
 Collection.prototype.find = function(selector, options) {
-            var statement, values
-            statement = "SELECT "
+            var values = []
+            var statement = "SELECT "
             statement += (options.fields) ? options.fields.join() : "*"
             statement += "FROM " + this.name
             if (selector) {
                 statement += " WHERE "
-                values = []
                 for (var k in selector) {
                     statement += (values.length ? ", " : "") + k + " = ?"
                     values.push(selector[k])
@@ -111,13 +110,12 @@ Collection.prototype.insert = function(doc) {
         }
 
 Collection.prototype.drop = function(selector, options) {
-            var statement, values
-            statement = "DELETE "
+            var values = []
+            var statement = "DELETE "
             statement += (options.fields) ? options.fields.join() : "*"
             statement += "FROM " + this.name
             if (selector) {
                 statement += " WHERE "
-                values = []
                 for (var k in selector) {
                     statement += (values.length ? ", " : "") + k + " = ?"
                     values.push(selector[k])

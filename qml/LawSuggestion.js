@@ -1,6 +1,6 @@
 function show(text) {
     // Find for indices
-    var locals = db.collection("indices").find(text ? {"~name": text} : undefined)
+    var locals = db.collection("indices").find(text ? {"~name": "%"+text+"%"} : undefined)
     clearItems("local")
     for (var i = 0; i < locals.length; i++) {
         var entry = locals[i]

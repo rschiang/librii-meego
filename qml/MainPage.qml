@@ -50,7 +50,6 @@ ListViewPage {
 
     ContextMenu {
         id: contextMenu
-        visualParent: appWindow
         MenuLayout {
             MenuItem { text: "在新視窗中開啟" }
             MenuItem { text: "加入至我的最愛" }

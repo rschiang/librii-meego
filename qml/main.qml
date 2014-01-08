@@ -27,7 +27,8 @@ PageStackWindow {
     Component.onCompleted: {
         theme.colorScheme = "darkBlue"
 
-        var r = db.collection("sqlite_master").find({type: "table", name: "indices"})
+        db.collection("sqlite_master")
+        var r = db.find({type: "table", name: "indices"}, {fields: ["1"]})
         if (!r.length)
             settings.firstRun()
     }

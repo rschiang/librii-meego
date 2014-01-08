@@ -56,17 +56,17 @@ QtObject {
     function find(selector, options) {
         var values = []
         var statement = "SELECT "
-        statement += (options.fields) ? options.fields.join() : "*"
-        statement += "FROM " + This.colName
+        statement += (options && options.fields) ? options.fields.join() : "*"
+        statement += " FROM " + This.colName
         if (selector) {
             statement += " WHERE "
             for (var k in selector) {
-                statement += (values.length ? ", " : "") + k + " = ?"
+                statement += (values.length ? " AND " : "") + k + " = ?"
                 values.push(selector[k])
             }
         }
-        if (options.limit) statement += " LIMIT " + options.limit
-        if (options.sort) {
+        if (options && options.limit) statement += " LIMIT " + options.limit
+        if (options && options.sort) {
             statement += " ORDER BY "
             var count = 0
             for (var f in options.sort) {
@@ -124,7 +124,7 @@ QtObject {
     function remove(selector, options) {
         var values = []
         var statement = "DELETE "
-        statement += (options.fields) ? options.fields.join() : "*"
+        statement += (options && options.fields) ? options.fields.join() : "*"
         statement += "FROM " + This.colName
         if (selector) {
             statement += " WHERE "

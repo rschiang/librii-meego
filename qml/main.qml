@@ -19,14 +19,24 @@ PageStackWindow {
         id: db
     }
 
+    QtObject {
+        id: settings
+        property bool firstRun
+    }
+
     Component.onCompleted: {
         theme.colorScheme = "darkBlue"
 
         db.batch(function(db) {
-            db.collection("indices").create(
-                {name: 'text unique', lyId: 'integer', starred: 'integer'});
-            db.collection("article").create({lyId: 'integer', json: 'text'});
-            db.collection("statute").create({lyId: 'integer', json: 'text'});
+            var r = db.collection("sqlite_master").find({type: "table", name: "indices"})
+            settings.firstRun = (!r.length)
+
+            if (settings.firstRun) {
+                db.collection("indices").create(
+                    {name: 'text unique', lyId: 'integer', starred: 'integer'})
+                db.collection("article").create({lyId: 'integer', json: 'text'})
+                db.collection("statute").create({lyId: 'integer', json: 'text'})
+            }
         })
     }
 }

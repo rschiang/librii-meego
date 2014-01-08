@@ -15,6 +15,7 @@
         <file>qml/LocalStorage.js</file>
         <file>qml/MainPage.qml</file>
         <file>qml/LawSuggestion.js</file>
+        <file>qml/LawEntryDelegate.qml</file>
         <file>qml/EntriesPage.qml</file>
         <file>qml/AboutPage.qml</file>
     </qresource>

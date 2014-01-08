@@ -1,6 +1,5 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
-import com.nokia.extras 1.1
 import "LawSuggestion.js" as Suggestions
 
 ListViewPage {
@@ -42,13 +41,21 @@ ListViewPage {
         }
 
         delegate: Component {
-            ListDelegate {
+            LawEntryDelegate {
                 onClicked: navigate(model)
-                MoreIndicator {
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+                onPressAndHold: contextMenu.open()
             }
+        }
+    }
+
+    ContextMenu {
+        id: contextMenu
+        visualParent: appWindow
+        MenuLayout {
+            MenuItem { text: "在新視窗中開啟" }
+            MenuItem { text: "加入至我的最愛" }
+            MenuItem { text: "詳細資訊" }
+            MenuItem { text: "刪除" }
         }
     }
 
@@ -62,8 +69,9 @@ ListViewPage {
 
     function pushItem(item, query) {
         item.iconSource = "image://theme/icon-m-content-document"
+        item.starred = item.starred != 0
         item.section = item.category === "remote" ? "在網路上" :
-                                                    item.starred != 0 ? "我的最愛" : "在手機上"
+                                                    item.starred ? "我的最愛" : "在手機上"
         item.title = !query ? item.name :
                               item.name.replace(text, "<u style='color: #4187C5;'>$&</u>")
 
@@ -76,9 +84,7 @@ ListViewPage {
                        })
     }
 
-    Component.onCompleted: {
-        Suggestions.show()
-    }
+    Component.onCompleted: Suggestions.show()
 
     Connections {
         target: settings
@@ -93,6 +99,7 @@ ListViewPage {
                 db.insert({name: "民法第四編親屬", lyId: "04513", starred: 0})
                 db.insert({name: "民法第五編繼承", lyId: "04515", starred: 0})
             })
+            Suggestions.show()
         }
     }
 }

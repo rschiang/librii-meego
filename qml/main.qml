@@ -21,22 +21,26 @@ PageStackWindow {
 
     QtObject {
         id: settings
-        property bool firstRun
+        signal firstRun
     }
 
     Component.onCompleted: {
         theme.colorScheme = "darkBlue"
 
-        db.batch(function(db) {
-            var r = db.collection("sqlite_master").find({type: "table", name: "indices"})
-            settings.firstRun = (!r.length)
+        var r = db.collection("sqlite_master").find({type: "table", name: "indices"})
+        if (!r.length)
+            settings.firstRun()
+    }
 
-            if (settings.firstRun) {
+    Connections {
+        target: settings
+        onFirstRun: {
+            db.batch(function(db) {
                 db.collection("indices").create(
                     {name: 'text unique', lyId: 'text', starred: 'integer'})
                 db.collection("article").create({lyId: 'text unique', json: 'text'})
                 db.collection("statute").create({lyId: 'text unique', json: 'text'})
-            }
-        })
+            })
+        }
     }
 }

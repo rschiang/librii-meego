@@ -78,7 +78,11 @@ ListViewPage {
     }
 
     Component.onCompleted: {
-        if (settings.firstRun) {
+    }
+
+    Connections {
+        target: settings
+        onFirstRun: {
             db.batch(function(db) {
                 db.collection("indices")
                 db.insert({name: "中華民國憲法", lyId: "04101", starred: 0})

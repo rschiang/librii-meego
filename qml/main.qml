@@ -41,6 +41,10 @@ PageStackWindow {
                     {name: 'text unique', lyId: 'text', starred: 'integer'})
                 db.collection("article").create({lyId: 'text unique', json: 'text'})
                 db.collection("statute").create({lyId: 'text unique', json: 'text'})
+
+                db.collection("indices").createIndex("indices_name", ["name"])
+                db.collection("article").createIndex("article_lyId", ["lyId"])
+                db.collection("article").createIndex("statute_lyId", ["lyId"])
             })
         }
     }

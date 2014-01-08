@@ -142,4 +142,15 @@ QtObject {
         var statement = "DROP TABLE " + This.colName
         return root.exec(statement, [])
     }
+
+    function createIndex(name, fields, options) {
+        var statement = "CREATE "
+        if (options && options.unique) statement += "UNIQUE "
+        statement += "INDEX IF NOT EXISTS " + name
+        statement += " ON " + This.colName
+        statement += " ("
+        statement += fields.join()
+        statement += ")"
+        return root.exec(statement, [])
+    }
 }

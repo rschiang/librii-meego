@@ -77,9 +77,6 @@ ListViewPage {
         }
     }
 
-    Component.onCompleted: {
-    }
-
     Connections {
         target: settings
         onFirstRun: {

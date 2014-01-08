@@ -69,11 +69,11 @@ ListViewPage {
 
     function pushItem(item, query) {
         item.iconSource = "image://theme/icon-m-content-document"
-        item.starred = item.starred != 0
+        item.starred = (item.starred && item.starred != 0)
         item.section = item.category === "remote" ? "在網路上" :
                                                     item.starred ? "我的最愛" : "在手機上"
         item.title = !query ? item.name :
-                              item.name.replace(text, "<u style='color: #4187C5;'>$&</u>")
+                              item.name.replace(query, "<u style='color: #4187C5;'>$&</u>")
 
         listModel.append(item)
     }

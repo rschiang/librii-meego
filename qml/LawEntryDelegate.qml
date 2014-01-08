@@ -61,7 +61,12 @@ Item {
     Image {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        source: model.starred ? "image://theme/icon-s-common-favorite-mark" : ""
+        source: model.starred ?
+                    listItem.pressed ? "image://theme/icon-s-common-favorite-mark-selected" :
+                        theme.inverted ? "image://theme/icon-s-common-favorite-mark-inverted" :
+                                         "image://theme/icon-s-common-favorite-mark"
+                : ""
+        visible: source != ""
     }
 
     MouseArea {

@@ -33,9 +33,9 @@ PageStackWindow {
 
             if (settings.firstRun) {
                 db.collection("indices").create(
-                    {name: 'text unique', lyId: 'integer', starred: 'integer'})
-                db.collection("article").create({lyId: 'integer', json: 'text'})
-                db.collection("statute").create({lyId: 'integer', json: 'text'})
+                    {name: 'text unique', lyId: 'text', starred: 'integer'})
+                db.collection("article").create({lyId: 'text unique', json: 'text'})
+                db.collection("statute").create({lyId: 'text unique', json: 'text'})
             }
         })
     }

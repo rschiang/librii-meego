@@ -78,10 +78,17 @@ ListViewPage {
     }
 
     Component.onCompleted: {
-        var bookmarks = ["中華民國憲法", "中華民國刑法", "民法第一編總則", "民法第二編債", "民法第三編物權", "民法第四編親屬", "民法第五編繼承"]
-        for (var i = 0; i < bookmarks.length; i++)
-            listModel.append({ name: bookmarks[i], title: bookmarks[i],
-                               iconSource: "image://theme/icon-m-content-favourites"
-                             })
+        if (settings.firstRun) {
+            db.batch(function(db) {
+                db.collection("indices")
+                db.insert({name: "中華民國憲法", lyId: "04101", starred: 0})
+                db.insert({name: "中華民國刑法", lyId: "04536", starred: 0})
+                db.insert({name: "民法第一編總則", lyId: "04507", starred: 0})
+                db.insert({name: "民法第二編債", lyId: "04509", starred: 0})
+                db.insert({name: "民法第三編物權", lyId: "04511", starred: 0})
+                db.insert({name: "民法第四編親屬", lyId: "04513", starred: 0})
+                db.insert({name: "民法第五編繼承", lyId: "04515", starred: 0})
+            })
+        }
     }
 }

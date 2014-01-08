@@ -61,7 +61,11 @@ QtObject {
         if (selector) {
             statement += " WHERE "
             for (var k in selector) {
-                statement += (values.length ? " AND " : "") + k + " = ?"
+                statement += (values.length ? " AND " : "")
+                if (k[0] === "~")
+                    statement += k.substring(1) + " LIKE ?"
+                else
+                    statement += k + " = ?"
                 values.push(selector[k])
             }
         }

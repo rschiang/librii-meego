@@ -13,6 +13,7 @@
         <file>qml/LocalStorage.qml</file>
         <file>qml/LocalStorage.js</file>
         <file>qml/MainPage.qml</file>
+        <file>qml/LawSuggestion.js</file>
         <file>qml/EntriesPage.qml</file>
         <file>qml/AboutPage.qml</file>
     </qresource>

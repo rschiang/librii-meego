@@ -1,6 +1,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.1
+import "LawSuggestion.js" as Suggestions
 
 ListViewPage {
     id: page
@@ -9,27 +10,6 @@ ListViewPage {
         pageStack.push("qrc:/qml/EntriesPage.qml", {
                            corpus: model.name
                        })
-    }
-
-    function showSuggestions(text) {
-        var xhr = new XMLHttpRequest()
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == xhr.DONE) {
-                var response = JSON.parse(xhr.responseText)
-                if (response.isSuccess) {
-                    listModel.clear()
-                    for (var i in response.suggestion) {
-                        var entry = response.suggestion[i]
-                        var ht = entry.law.replace(text, "<u style='color: #4187C5;'>$&</u>")
-                        listModel.append({ name: entry.law, title: ht,
-                                           iconSource: "image://theme/icon-m-content-document"
-                                         })
-                    }
-                }
-            }
-        }
-        xhr.open("GET", "http://g0v-laweasyread.herokuapp.com/api/suggestion/" + text)
-        xhr.send()
     }
 
     header: Component {
@@ -54,10 +34,10 @@ ListViewPage {
                 }
 
                 onTextChanged: {
-                    if (text.length) showSuggestions(text)
+                    if (text.length) Suggestions.show(text)
                 }
 
-                Keys.onReturnPressed: showSuggestions(text)
+                Keys.onReturnPressed: Suggestions.show(text)
             }
         }
     }
@@ -75,6 +55,28 @@ ListViewPage {
                 }
             }
         }
+    }
+
+    function clearItems(category) {
+        for (var i = 0; i < listModel.count; i++) {
+            if (listModel.get(i).category !== category)
+                continue
+            listModel.remove(i--)
+        }
+    }
+
+    function pushItem(item, query) {
+        item.iconSource = "image://theme/icon-m-content-document"
+        item.section = item.category === "remote" ? "在網路上" :
+                                                    item.starred ? "我的最愛" : "在手機上"
+        item.title = !query ? item.name :
+                              item.name.replace(text, "<u style='color: #4187C5;'>$&</u>")
+
+        listModel.append(item)
+    }
+
+    Component.onCompleted: {
+        Suggestions.show()
     }
 
     Connections {

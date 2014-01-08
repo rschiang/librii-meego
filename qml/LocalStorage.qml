@@ -4,19 +4,19 @@ import "LocalStorage.js" as This
 QtObject {
     id: root
 
-    function exec(it, val) {
+    function exec(it, val, tx) {
         console.log(it)
-        if (This.tx)
-            return This.tx.executeSql(it, val)
+        if ((tx = tx || This.tx))
+            return tx.executeSql(it, val)
         var result
         This.db.transaction(function(tx) { result = exec(it, val, tx) })
         return result
     }
 
-    function query(it, val) {
+    function query(it, val, tx) {
         console.log(it)
-        if (This.tx)
-            return This.tx.executeSql(it, val)
+        if ((tx = tx || This.tx))
+            return tx.executeSql(it, val)
         var result
         This.db.readTransaction(function(tx) { result = query(it, val, tx) })
         return result

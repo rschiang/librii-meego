@@ -6,12 +6,6 @@ import "LawSuggestion.js" as Suggestions
 ListViewPage {
     id: page
 
-    function navigate(model) {
-        pageStack.push("qrc:/qml/EntriesPage.qml", {
-                           corpus: model.name
-                       })
-    }
-
     header: Component {
         PageHeader {
             text: "Librii"
@@ -33,18 +27,19 @@ ListViewPage {
                     verticalCenter: parent.verticalCenter
                 }
 
-                onTextChanged: {
-                    if (text.length) Suggestions.show(text)
-                }
-
+                onTextChanged: Suggestions.show(text)
                 Keys.onReturnPressed: Suggestions.show(text)
             }
         }
     }
 
     listView {
-        section.property: "title"
+        section.property: "section"
         model: ListModel { id: listModel }
+
+        section.delegate: Component {
+            GroupHeader { text: section }
+        }
 
         delegate: Component {
             ListDelegate {
@@ -68,11 +63,17 @@ ListViewPage {
     function pushItem(item, query) {
         item.iconSource = "image://theme/icon-m-content-document"
         item.section = item.category === "remote" ? "在網路上" :
-                                                    item.starred ? "我的最愛" : "在手機上"
+                                                    item.starred != 0 ? "我的最愛" : "在手機上"
         item.title = !query ? item.name :
                               item.name.replace(text, "<u style='color: #4187C5;'>$&</u>")
 
         listModel.append(item)
+    }
+
+    function navigate(model) {
+        pageStack.push("qrc:/qml/EntriesPage.qml", {
+                           corpus: model.name
+                       })
     }
 
     Component.onCompleted: {

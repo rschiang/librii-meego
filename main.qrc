@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>qml/PageHeader.qml</file>
         <file>qml/SearchField.qml</file>
+        <file>qml/GroupHeader.qml</file>
         <file>qml/FastScroll.js</file>
         <file>qml/FastScroll.qml</file>
         <file>qml/FastScrollStyle.qml</file>

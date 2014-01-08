@@ -1,71 +1,63 @@
 import QtQuick 1.1
+import "LocalStorage.js" as This
 
 QtObject {
-    id: local
-    property variant db
-    property variant tx
-    property variant colName
+    id: root
 
-    function open() {
-        local.db = openDatabaseSync("org.librii", "1", "Librii", 4 * 1024 * 1024)
-        return local
-    }
-
-    function close() {
-        local.db = undefined
-        return local
-    }
-
-    function exec(it, params) {
-        if (local.tx)
-            return local.tx.executeSql(it, val)
+    function exec(it, val) {
+        console.log(it)
+        if (This.tx)
+            return This.tx.executeSql(it, val)
         var result
-        local.db.transaction(function(tx) { result = exec(it, val, tx) })
+        This.db.transaction(function(tx) { result = exec(it, val, tx) })
         return result
     }
 
     function query(it, val) {
-        if (local.tx)
-            return local.tx.executeSql(it, val)
+        console.log(it)
+        if (This.tx)
+            return This.tx.executeSql(it, val)
         var result
-        local.db.readTransaction(function(tx) { result = query(it, val, tx) })
+        This.db.readTransaction(function(tx) { result = query(it, val, tx) })
         return result
     }
 
     function batch(callback) {
         var result
-        local.db.transaction(function(tx) {
-                                local.tx = tx
-                                result = callback(local)
-                                local.tx = undefined
+        This.db.transaction(function(tx) {
+                                This.tx = tx
+                                result = callback(root)
+                                This.tx = undefined
                             })
         return result
     }
 
     function collection(name) {
-        local.colName = name
-        return local
+        This.colName = name
+        return root
     }
 
     // Collection functions
 
     function create(fields) {
-        var statement = "CREATE TABLE IF NOT EXISTS " + local.colName
+        var count = 0
+        var statement = "CREATE TABLE IF NOT EXISTS " + This.colName
         statement += "("
         for (var f in fields) {
-            statement += (values.length ? ", ": "")
+            statement += (count++ ? ", ": "")
             statement += f
+            statement += " "
             statement += fields[f].toUpperCase()
         }
         statement += ")"
-        return local.db.exec(statement, [])
+        return root.exec(statement, [])
     }
 
     function find(selector, options) {
         var values = []
         var statement = "SELECT "
         statement += (options.fields) ? options.fields.join() : "*"
-        statement += "FROM " + local.colName
+        statement += "FROM " + This.colName
         if (selector) {
             statement += " WHERE "
             for (var k in selector) {
@@ -84,7 +76,7 @@ QtObject {
             }
         }
 
-        var q = local.db.query(statement, values)
+        var q = root.query(statement, values)
         var result = []
         for (var i = 0; i < q.rows.length; i++)
             result.push(q.rows.item(i))
@@ -93,7 +85,7 @@ QtObject {
 
     function update(selector, doc) {
         var values = []
-        var statement = "UPDATE" + local.colName
+        var statement = "UPDATE" + This.colName
         for (var f in doc) {
             statement += (values.length ? ", ": " SET ") + f + " = ?"
             values.push(doc[f])
@@ -107,7 +99,7 @@ QtObject {
             }
         }
 
-        var q = local.db.exec(statement, values)
+        var q = root.exec(statement, values)
         return q.rowsAffected
     }
 
@@ -118,14 +110,14 @@ QtObject {
             values.push(doc[k])
         }
 
-        var statement = "INSERT INTO " + local.colName
+        var statement = "INSERT INTO " + This.colName
         statement += " (" + fields.join() + ") "
         statement += " VALUES ("
         for (var i = 0; i < values.length; i++)
             statement += (i ? ",?": "?")
         statement += ")"
 
-        var q = local.db.exec(statement, values)
+        var q = root.exec(statement, values)
         return q.insertId
     }
 
@@ -133,7 +125,7 @@ QtObject {
         var values = []
         var statement = "DELETE "
         statement += (options.fields) ? options.fields.join() : "*"
-        statement += "FROM " + local.colName
+        statement += "FROM " + This.colName
         if (selector) {
             statement += " WHERE "
             for (var k in selector) {
@@ -142,12 +134,12 @@ QtObject {
             }
         }
 
-        var q = local.db.exec(statement, values)
+        var q = root.exec(statement, values)
         return q.rowsAffected
     }
 
     function drop() {
-        var statement = "DROP TABLE " + local.colName
-        return local.db.exec(statement, [])
+        var statement = "DROP TABLE " + This.colName
+        return root.exec(statement, [])
     }
 }

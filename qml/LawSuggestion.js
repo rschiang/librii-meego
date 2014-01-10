@@ -1,10 +1,15 @@
 function show(text) {
+    // Record what we've already pushed to UI
+    var found = []
+
     // Find for indices
     var locals = db.collection("indices").find(text ? {"~name": "%"+text+"%"} : undefined)
     clearItems("local")
     for (var i = 0; i < locals.length; i++) {
         var entry = locals[i]
         entry.category = "local"
+
+        found.push(entry.name)
         pushItem(entry, text)
     }
 
@@ -21,6 +26,9 @@ function show(text) {
                         name: response.suggestion[i].law,
                         category: "remote"
                     }
+                    if (found.indexOf(entry.name) >= 0)
+                        continue
+                    found.push(entry.name)
                     pushItem(entry, text)
                 }
             }

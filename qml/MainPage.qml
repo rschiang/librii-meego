@@ -1,5 +1,6 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import QtMobility.feedback 1.1
 import "LawSuggestion.js" as Suggestions
 
 ListViewPage {
@@ -56,6 +57,13 @@ ListViewPage {
             MenuItem { text: "詳細資訊" }
             MenuItem { text: "刪除" }
         }
+
+        onStatusChanged: if (status === DialogStatus.Opening) menuEffect.play()
+    }
+
+    ThemeEffect {
+        id: menuEffect
+        effect: ThemeEffect.PopupOpen
     }
 
     function clearItems(category) {

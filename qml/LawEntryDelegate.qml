@@ -39,10 +39,12 @@ Item {
         }
 
         Column {
+            width: listItem.width - 80
             anchors.verticalCenter: parent.verticalCenter
 
             Label {
                 id: mainText
+                width: parent.width
                 text: model.title
                 font: UiConstants.TitleFont
                 color: mouseArea.pressed ? listItem.titleColorPressed : listItem.titleColor
@@ -50,6 +52,7 @@ Item {
 
             Label {
                 id: subText
+                width: parent.width
                 text: model.subtitle ? model.subtitle : ""
                 font: UiConstants.SubtitleFont
                 color: mouseArea.pressed ? listItem.subtitleColorPressed : listItem.subtitleColor

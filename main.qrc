@@ -22,6 +22,7 @@
         <file>qml/LawEntryDelegate.qml</file>
         <file>qml/EntriesPage.qml</file>
         <file>qml/LawEntries.js</file>
+        <file>qml/LawArticleDelegate.qml</file>
         <file>qml/AboutPage.qml</file>
         <file>qml/WipeDialog.qml</file>
     </qresource>

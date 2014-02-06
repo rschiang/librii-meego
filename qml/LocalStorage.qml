@@ -107,14 +107,16 @@ QtObject {
         return q.rowsAffected
     }
 
-    function insert(doc) {
+    function insert(doc, options) {
         var fields = [], values = []
         for (var k in doc) {
             fields.push(k)
             values.push(doc[k])
         }
 
-        var statement = "INSERT INTO " + This.colName
+        var statement = "INSERT "
+        statement += (options && options.replace) ? "OR REPLACE INTO ": "INTO "
+        statement += This.colName
         statement += " (" + fields.join() + ") "
         statement += " VALUES ("
         for (var i = 0; i < values.length; i++)

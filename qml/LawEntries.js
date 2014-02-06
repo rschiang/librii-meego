@@ -27,9 +27,10 @@ function fetchInfo(name, callback) {
             var response = JSON.parse(xhr.responseText)
             if (response.isSuccess) {
                 var info = response.law
+                var options = { replace: true }
 
-                db.collection("indices").insert({ name: name, lyID: info.lyID, starred: 0 })
-                db.collection("article").insert({ lyID: info.lyID, json: JSON.stringify(info) })
+                db.collection("indices").insert({ name: name, lyID: info.lyID, starred: 0 }, options)
+                db.collection("article").insert({ lyID: info.lyID, json: JSON.stringify(info) }, options)
 
                 if (callback) callback(info)
             }
@@ -46,9 +47,11 @@ function fetchStatute(lyID, callback) {
         if (xhr.readyState == xhr.DONE) {
             var response = JSON.parse(xhr.responseText)
             if (response.length) {
-                db.collection("statute").insert({ lyID: lyID, json: xhr.responseText })
+                var options = { replace: true }
 
-                if (callback) callback(info)
+                db.collection("statute").insert({ lyID: lyID, json: xhr.responseText }, options)
+
+                if (callback) callback(response)
             }
             else showError("statute")
         }

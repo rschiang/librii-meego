@@ -14,8 +14,12 @@ function show(text) {
         pushItem(entry, text)
     }
 
+    if (!text) {
+        clearItems("remote")
+        return
+    }
+
     // Call XHR for online suggestion
-    if (!text) return;
     var xhr = new XMLHttpRequest()
     xhr.onreadystatechange = function() {
         if (xhr.readyState == xhr.DONE) {

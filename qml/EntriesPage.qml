@@ -59,7 +59,7 @@ ListViewPage {
         }
         section.property: "article"
         model: ListModel { id: listModel }
-        cacheBuffer: page.height * 5
+        cacheBuffer: page.height * 7
     }
 
     LoadIndicator {

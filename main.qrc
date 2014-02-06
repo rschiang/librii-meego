@@ -10,6 +10,7 @@
         <file>qml/EntryMenu.qml</file>
         <file>qml/LoadIndicator.qml</file>
         <file>qml/NotificationBanner.qml</file>
+        <file>qml/DelayedLoader.qml</file>
         <file>assets/app-icon.png</file>
         <file>assets/g0v-icon.png</file>
         <file>assets/about.qml</file>

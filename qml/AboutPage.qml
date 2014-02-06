@@ -82,11 +82,9 @@ Page {
         }
     }
 
-    Loader {
+    DelayedLoader {
         id: wipeDialogLoader
-
-        Component {
-            id: wipeDialog
+        component: Component {
             QueryDialog {
                 titleText: "清除所有資料？"
                 message: "儲存的法條、我的最愛以及所有設定都將被清除。"
@@ -99,15 +97,7 @@ Page {
                 }
             }
         }
-
-        onLoaded: item.open()
-
-        function load() {
-            if (!sourceComponent)
-                sourceComponent = wipeDialog
-            else
-                item.open()
-        }
+        onCall: item.open()
     }
 
     Loader {

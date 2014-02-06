@@ -13,9 +13,10 @@ Page {
             right: parent.right
         }
         text: "關於 Librii"
+        z: 1
     }
 
-    Item {
+    Flickable {
         anchors {
             top: header.bottom
             left: parent.left
@@ -23,10 +24,13 @@ Page {
             bottom: parent.bottom
             margins: UiConstants.DefaultMargin
         }
+        contentWidth: width
+        contentHeight: boundItem.height
 
         Column {
             id: boundItem
             width: parent.width
+            anchors.horizontalCenter: parent.horizontalCenter
             spacing: UiConstants.DefaultMargin
 
             Repeater {

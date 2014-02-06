@@ -101,20 +101,9 @@ ListViewPage {
         model: ListModel { id: listModel }
     }
 
-    BusyIndicator {
+    LoadIndicator {
         id: indicator
         anchors.centerIn: parent
-        running: false
-        visible: running
-        style: BusyIndicatorStyle { size: "large" }
-
-        function start() {
-            indicator.running = true
-        }
-
-        function stop() {
-            indicator.running = false
-        }
     }
 
     function clearItems() {

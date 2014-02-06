@@ -1,8 +1,6 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
-import QtMobility.feedback 1.1
 import "LawSuggestion.js" as Suggestions
-import "LawEntries.js" as Entries
 
 ListViewPage {
     id: page
@@ -46,7 +44,6 @@ ListViewPage {
             LawEntryDelegate {
                 onClicked: navigate(model)
                 onPressAndHold: {
-                    menuEffect.play()
                     contextMenu.context = model
                     contextMenu.open()
                 }
@@ -54,7 +51,7 @@ ListViewPage {
         }
     }
 
-    ContextMenu {
+    EntryMenu {
         id: contextMenu
         property variant context: ({})
 
@@ -76,11 +73,6 @@ ListViewPage {
                        visible: (contextMenu.context.category === "local")
                        onClicked: Suggestions.remove(contextMenu.context) }
         }
-    }
-
-    ThemeEffect {
-        id: menuEffect
-        effect: ThemeEffect.PopupOpen
     }
 
     function removeItem(name) {

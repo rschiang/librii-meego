@@ -7,6 +7,8 @@
         <file>qml/FastScroll.qml</file>
         <file>qml/FastScrollStyle.qml</file>
         <file>qml/ListViewPage.qml</file>
+        <file>qml/EntryMenu.qml</file>
+        <file>qml/LoadIndicator.qml</file>
         <file>assets/app-icon.png</file>
         <file>assets/g0v-icon.png</file>
         <file>assets/about.qml</file>

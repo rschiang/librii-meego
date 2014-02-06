@@ -81,6 +81,9 @@ function show(params) {
                              indicator.stop()
                          })
         }
-        else load(statutes[0])
+        else {
+            var statute = JSON.parse(statutes[0].json)
+            load(statute)
+        }
     }
 }

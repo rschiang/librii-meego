@@ -62,28 +62,23 @@ function fetchStatute(lyID, callback) {
 
 function show(params) {
     var lyID = params.lyID
-    if (!lyID) {
-        indicator.start()
-        fetchInfo(params.name,
-                  function(info) {
-                      fetchStatute(info.lyID,
-                                   function(statute) {
-                                       load(statute)
-                                       indicator.stop()
-                                   })
-                  })
-    } else {
+    if (lyID) {
         var statutes = db.collection("statute").find({ lyID: lyID })
-        if (!statutes.length) {
-            indicator.start()
-            fetchStatute(lyID, function(statute) {
-                             load(statute)
-                             indicator.stop()
-                         })
-        }
-        else {
+        if (statutes.length) {
             var statute = JSON.parse(statutes[0].json)
             load(statute)
+            return
         }
     }
+
+    // No cache available, fetch all
+    indicator.start()
+    fetchInfo(params.name,
+              function(info) {
+                  fetchStatute(info.lyID,
+                               function(statute) {
+                                   load(statute)
+                                   indicator.stop()
+                               })
+              })
 }

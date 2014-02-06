@@ -107,6 +107,10 @@ ListViewPage {
         size: "large"
     }
 
+    NotificationBanner {
+        id: toast
+    }
+
     function clearItems() {
         listModel.clear()
     }
@@ -120,7 +124,10 @@ ListViewPage {
     }
 
     function showError(context) {
-        // TODO
+        if (context === "info")
+            toast.showMessage("無法載入法條資訊")
+        else if (context === "statute")
+            toast.showMessage("無法載入法條內容")
         indicator.stop()
     }
 

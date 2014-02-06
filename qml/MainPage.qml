@@ -62,7 +62,7 @@ ListViewPage {
                        onClicked: Suggestions.toggleStar(contextMenu.context) }
             MenuItem { text: "詳細資訊" }
             MenuItem { text: "刪除"
-                       visible: (contextMenu.context.category === "local")
+                       enabled: (contextMenu.context.category === "local")
                        onClicked: Suggestions.remove(contextMenu.context) }
         }
     }
@@ -75,6 +75,10 @@ ListViewPage {
             margins: UiConstants.DefaultMargin
         }
         inverted: true
+    }
+
+    NotificationBanner {
+        id: toast
     }
 
     function findItem(name) {
@@ -115,7 +119,8 @@ ListViewPage {
     }
 
     function showError(context) {
-        // TODO
+        toast.showMessage("法條資訊無效，無法將其加至我的最愛")
+        indicator.stop()
     }
 
     function navigate(model) {

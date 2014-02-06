@@ -22,6 +22,7 @@ PageStackWindow {
     QtObject {
         id: settings
         signal firstRun
+        signal reset
     }
 
     Component.onCompleted: {
@@ -45,6 +46,14 @@ PageStackWindow {
                 db.collection("article").createIndex("article_lyID", ["lyID"])
                 db.collection("article").createIndex("statute_lyID", ["lyID"])
             })
+        }
+        onReset: {
+            db.batch(function(db) {
+                db.collection("indices").drop()
+                db.collection("article").drop()
+                db.collection("statute").drop()
+            })
+            settings.firstRun()
         }
     }
 }

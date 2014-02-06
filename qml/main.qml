@@ -6,15 +6,6 @@ PageStackWindow {
 
     initialPage: "qrc:/qml/MainPage.qml"
 
-    ToolBarLayout {
-        id: naviTools
-        visible: false
-        ToolIcon {
-            platformIconId: "toolbar-back"
-            onClicked: pageStack.pop()
-        }
-    }
-
     LocalStorage {
         id: db
     }

@@ -3,7 +3,17 @@ import com.nokia.meego 1.0
 
 Page {
     id: page
-    tools: naviTools
+    tools: ToolBarLayout {
+        ToolIcon {
+            platformIconId: "toolbar-back"
+            onClicked: pageStack.pop()
+        }
+
+        ToolIcon {
+            platformIconId: "toolbar-view-menu"
+            onClicked: menu.open()
+        }
+    }
 
     PageHeader {
         id: header
@@ -61,6 +71,40 @@ Page {
                     }
                 }
             }
+        }
+    }
+
+    Menu {
+        id: menu
+        MenuLayout {
+            MenuItem { text: "清除所有資料"
+                       onClicked: wipeDialogLoader.load() }
+        }
+    }
+
+    Loader {
+        id: wipeDialogLoader
+
+        Component {
+            id: wipeDialog
+            QueryDialog {
+                visualParent: appWindow
+                titleText: "清除所有資料？"
+                message: "儲存的法條、我的最愛以及所有設定都將被清除。"
+                acceptButtonText: "繼續"
+                rejectButtonText: "取消"
+
+                onAccepted: {
+                    settings.reset()
+                    pageStack.pop()
+                }
+            }
+        }
+
+        onLoaded: wipeDialogLoader.item.open()
+
+        function load() {
+            wipeDialogLoader.sourceComponent = wipeDialog
         }
     }
 

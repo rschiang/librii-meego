@@ -2,6 +2,7 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import QtMobility.feedback 1.1
 import "LawSuggestion.js" as Suggestions
+import "LawEntries.js" as Entries
 
 ListViewPage {
     id: page
@@ -59,7 +60,17 @@ ListViewPage {
 
         MenuLayout {
             MenuItem { text: "在新視窗中開啟" }
-            MenuItem { text: (contextMenu.context.starred === 1) ? "從我的最愛移除" : "加入至我的最愛" }
+            MenuItem { text: (contextMenu.context.starred === 1) ? "從我的最愛移除" : "加入至我的最愛"
+                       onClicked: {
+                           var model = contextMenu.context
+                           if (model.category === "remote") {
+                               // TODO
+                           } else {
+                               db.collection("indices")
+                               db.update({ lyID: model.lyID },
+                                         { starred: (1 - model.starred) })
+                           }
+                       } }
             MenuItem { text: "詳細資訊" }
             MenuItem { text: "刪除"
                        visible: (contextMenu.context.category === "local")

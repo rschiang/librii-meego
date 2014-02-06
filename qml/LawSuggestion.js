@@ -45,12 +45,26 @@ function show(text) {
     indicator.start()
 }
 
+function save(model) {
+    Entries.fetch(model,
+                  function(lyID, statute) {
+                      updateItem(model.name, { lyID: lyID, category: "local", section: "在手機上" })
+                  })
+}
+
 function remove(model) {
     var selector = { lyID: model.lyID }
     db.collection("indices").remove(selector)
     db.collection("article").remove(selector)
     db.collection("statute").remove(selector)
     removeItem(model.name)
+}
+
+function toggleSave(model) {
+    if (model.category === "remote")
+        save(model)
+    else
+        remove(model)
 }
 
 function toggleStar(model) {

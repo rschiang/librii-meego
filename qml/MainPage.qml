@@ -61,9 +61,8 @@ ListViewPage {
             MenuItem { text: contextMenu.context.starred ? "從我的最愛移除" : "加入至我的最愛"
                        onClicked: Suggestions.toggleStar(contextMenu.context) }
             MenuItem { text: "詳細資訊" }
-            MenuItem { text: "刪除"
-                       enabled: (contextMenu.context.category === "local")
-                       onClicked: Suggestions.remove(contextMenu.context) }
+            MenuItem { text: (contextMenu.context.category === "local") ? "刪除" : "儲存"
+                       onClicked: Suggestions.toggleSave(contextMenu.context) }
         }
     }
 

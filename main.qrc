@@ -23,5 +23,6 @@
         <file>qml/EntriesPage.qml</file>
         <file>qml/LawEntries.js</file>
         <file>qml/AboutPage.qml</file>
+        <file>qml/WipeDialog.qml</file>
     </qresource>
 </RCC>

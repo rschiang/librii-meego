@@ -3,6 +3,7 @@ import QtQuick 1.1
 Loader {
     id: loader
 
+    property url url
     property Component component
 
     signal call
@@ -10,9 +11,12 @@ Loader {
     onLoaded: call()
 
     function load() {
-        if (!sourceComponent)
-            sourceComponent = component
-        else
-            call()
+        if (!item) {
+            if (url)
+                source = url
+            else
+                sourceComponent = component
+        }
+        else call()
     }
 }

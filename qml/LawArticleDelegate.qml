@@ -4,22 +4,21 @@ import com.nokia.meego 1.0
 Item {
     id: root
     width: parent.width
-    height: entryContent.height + UiConstants.DefaultMargin
+    height: entryContent.height + 10
 
     Column {
         id: entryContent
-        width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
+        y: 5
 
         Text {
             id: entryTitle
-            width: parent.width
+            width: root.width
             text: "<b>" + model.article + "</b> " + model.title
         }
 
         Text {
             id: entryText
-            width: parent.width
+            width: root.width
             text: model.text
         }
     }

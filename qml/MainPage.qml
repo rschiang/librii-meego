@@ -62,7 +62,10 @@ ListViewPage {
                        onClicked: {
                            var model = contextMenu.context
                            if (model.category === "remote") {
-                               // TODO
+                               Entries.fetch(params, function(lyID, statute) {
+                                                 db.collection("indices")
+                                                   .update({ lyID: lyID }, { starred: 1 })
+                                             })
                            } else {
                                db.collection("indices")
                                db.update({ lyID: model.lyID },

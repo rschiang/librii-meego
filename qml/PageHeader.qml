@@ -17,7 +17,7 @@ Image {
 
     QtObject {
         id: internal
-        property int headerHeight: appWindow.inPortrait ? UiConstants.HeaderDefaultHeightPortrait : UiConstants.HeaderDefaultHeightLandcape
+        property int headerHeight: appWindow.inPortrait ? UiConstants.HeaderDefaultHeightPortrait : UiConstants.HeaderDefaultHeightLandscape
         property string imageSource: (interactive && mouseArea.pressed) ?
                                          "image://theme/" + theme.colorString + "meegotouch-view-header-fixed-pressed" :
                                          "image://theme/" + theme.colorString + "meegotouch-view-header-fixed"

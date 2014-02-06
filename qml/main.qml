@@ -38,12 +38,12 @@ PageStackWindow {
         onFirstRun: {
             db.batch(function(db) {
                 db.collection("indices").create(
-                    {name: 'text unique', lyId: 'text', starred: 'integer'})
-                db.collection("article").create({lyId: 'text unique', json: 'text'})
-                db.collection("statute").create({lyId: 'text unique', json: 'text'})
+                    {name: 'text unique', lyID: 'text', starred: 'integer'})
+                db.collection("article").create({lyID: 'text unique', json: 'text'})
+                db.collection("statute").create({lyID: 'text unique', json: 'text'})
 
-                db.collection("article").createIndex("article_lyId", ["lyId"])
-                db.collection("article").createIndex("statute_lyId", ["lyId"])
+                db.collection("article").createIndex("article_lyID", ["lyID"])
+                db.collection("article").createIndex("statute_lyID", ["lyID"])
             })
         }
     }

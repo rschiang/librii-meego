@@ -1,16 +1,16 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import "LawEntries.js" as Entries
 
 ListViewPage {
     id: page
 
-    property string corpus
-    property variant infoData
+    property variant modelData
     property bool showSearchField: false
 
     header: Component {
         PageHeader {
-            text: corpus
+            text: modelData ? modelData.name : ""
         }
     }
 
@@ -104,52 +104,35 @@ ListViewPage {
     BusyIndicator {
         id: indicator
         anchors.centerIn: parent
-        running: true
+        running: false
         visible: running
         style: BusyIndicatorStyle { size: "large" }
+
+        function start() {
+            indicator.running = true
+        }
+
+        function stop() {
+            indicator.running = false
+        }
     }
 
-    Component.onCompleted: {
-        var xhr = new XMLHttpRequest()
-        xhr.onreadystatechange = function() {
-                    if (xhr.readyState == xhr.DONE) {
-                        var response = JSON.parse(xhr.responseText)
-                        if (response.isSuccess) {
-                            infoData = response.law
-
-                            var xxhr = new XMLHttpRequest()
-                            xxhr.onreadystatechange = function() {
-                                if (xxhr.readyState == xxhr.DONE) {
-                                    var response = JSON.parse(xxhr.responseText)
-                                    if (!response.length) return
-
-                                    var articles = []
-                                    for (var i = 0; i < response.length; i++) {
-                                        var entry = response[i]
-                                        if (articles.indexOf(entry.article) >= 0)
-                                            continue
-
-                                        articles.push(entry.article)
-                                        listModel.append({
-                                            id: entry.article,
-                                            article: isNaN(entry.article) ? entry.article : "§"+entry.article,
-                                            title: entry.title ? "("+ entry.title + ")" : "",
-                                            text: entry.content.trim(),
-                                            date: entry.passed_date
-                                        })
-                                    }
-                                    indicator.running = false
-                                }
-                            }
-                            xxhr.open("GET", "https://raw.github.com/g0v/laweasyread-data/master/data/law/"+response.law.lyID+"/article.json")
-                            xxhr.send()
-                        }
-                        else
-                            indicator.running = false
-                    }
-                }
-
-        xhr.open("GET", "http://g0v-laweasyread.herokuapp.com/api/law/" + corpus)
-        xhr.send()
+    function clearItems() {
+        listModel.clear()
     }
+
+    function pushItem(item) {
+        item.article = isNaN(item.article) ?
+                             item.article :
+                            (item.article > 0) ? ("§" + item.article) : "前言"
+        item.title = item.title ? "("+ item.title + ")" : ""
+        listModel.append(item)
+    }
+
+    function showError(context) {
+        // TODO
+        indicator.stop()
+    }
+
+    Component.onCompleted: Entries.show(modelData)
 }

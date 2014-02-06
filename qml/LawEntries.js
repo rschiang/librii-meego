@@ -1,0 +1,83 @@
+function load(statute) {
+    // Track unique entries
+    var articles = []
+
+    clearItems()
+    for (var i = 0; i < statute.length; i++) {
+        var entry = statute[i]
+
+        // Skip duplicate article entries
+        if (articles.indexOf(entry.article) >= 0)
+            continue
+        articles.push(entry.article)
+
+        pushItem({
+            article: entry.article,
+            title: entry.title,
+            text: entry.content.trim(),
+            date: entry.passed_date
+        })
+    }
+}
+
+function fetchInfo(name, callback) {
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == xhr.DONE) {
+            var response = JSON.parse(xhr.responseText)
+            if (response.isSuccess) {
+                var info = response.law
+
+                db.collection("indices").insert({ name: name, lyID: info.lyID, starred: 0 })
+                db.collection("article").insert({ lyID: info.lyID, json: JSON.stringify(info) })
+
+                if (callback) callback(info)
+            }
+            else showError("info")
+        }
+    }
+    xhr.open("GET", "http://g0v-laweasyread.herokuapp.com/api/law/" + name)
+    xhr.send()
+}
+
+function fetchStatute(lyID, callback) {
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == xhr.DONE) {
+            var response = JSON.parse(xhr.responseText)
+            if (response.length) {
+                db.collection("statute").insert({ lyID: lyID, json: xhr.responseText })
+
+                if (callback) callback(info)
+            }
+            else showError("statute")
+        }
+    }
+    xhr.open("GET", "https://raw.github.com/g0v/laweasyread-data/master/data/law/" + lyID + "/article.json")
+    xhr.send()
+}
+
+function show(params) {
+    var lyID = params.lyID
+    if (!lyID) {
+        indicator.start()
+        fetchInfo(params.name,
+                  function(info) {
+                      fetchStatute(info.lyID,
+                                   function(statute) {
+                                       load(statute)
+                                       indicator.stop()
+                                   })
+                  })
+    } else {
+        var statutes = db.collection("statute").find({ lyID: lyID })
+        if (!statutes.length) {
+            indicator.start()
+            fetchStatute(lyID, function(statute) {
+                             load(statute)
+                             indicator.stop()
+                         })
+        }
+        else load(statutes[0])
+    }
+}

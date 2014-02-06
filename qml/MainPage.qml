@@ -86,9 +86,7 @@ ListViewPage {
     }
 
     function navigate(model) {
-        pageStack.push("qrc:/qml/EntriesPage.qml", {
-                           corpus: model.name
-                       })
+        pageStack.push("qrc:/qml/EntriesPage.qml", { modelData: model })
     }
 
     Component.onCompleted: Suggestions.show()
@@ -98,13 +96,13 @@ ListViewPage {
         onFirstRun: {
             db.batch(function(db) {
                 db.collection("indices")
-                db.insert({name: "中華民國憲法", lyId: "04101", starred: 0})
-                db.insert({name: "中華民國刑法", lyId: "04536", starred: 0})
-                db.insert({name: "民法第一編總則", lyId: "04507", starred: 0})
-                db.insert({name: "民法第二編債", lyId: "04509", starred: 0})
-                db.insert({name: "民法第三編物權", lyId: "04511", starred: 0})
-                db.insert({name: "民法第四編親屬", lyId: "04513", starred: 0})
-                db.insert({name: "民法第五編繼承", lyId: "04515", starred: 0})
+                db.insert({name: "中華民國憲法", lyID: "04101", starred: 0})
+                db.insert({name: "中華民國刑法", lyID: "04536", starred: 0})
+                db.insert({name: "民法第一編總則", lyID: "04507", starred: 0})
+                db.insert({name: "民法第二編債", lyID: "04509", starred: 0})
+                db.insert({name: "民法第三編物權", lyID: "04511", starred: 0})
+                db.insert({name: "民法第四編親屬", lyID: "04513", starred: 0})
+                db.insert({name: "民法第五編繼承", lyID: "04515", starred: 0})
             })
             Suggestions.show()
         }

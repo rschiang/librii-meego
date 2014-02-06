@@ -3,7 +3,8 @@ function show(text) {
     var found = []
 
     // Find for indices
-    var locals = db.collection("indices").find(text ? {"~name": "%"+text+"%"} : undefined)
+    var locals = db.collection("indices").find(text ? {"~name": "%"+text+"%"} : undefined,
+                                               { sort: { lyID: 1 } })
     clearItems("local")
     for (var i = 0; i < locals.length; i++) {
         var entry = locals[i]

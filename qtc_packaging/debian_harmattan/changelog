@@ -1,3 +1,9 @@
+libriimeego (1.14.2) unstable; urgency=low
+
+  * First release of Librii.
+
+ -- Poren Chiang <ren.chiang@gmail.com>  Fri, 07 Feb 2014 00:56:19 +0800
+
 libriimeego (0.0.1) unstable; urgency=low
 
   * Initial Release.

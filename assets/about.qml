@@ -14,7 +14,7 @@ Item {
             {
                 image: "qrc:/assets/app-icon.png",
                 text: generate([
-                    "<b>Librii</b> (libriimeego 1.13.12)",
+                    "<b>Librii</b> (libriimeego 1.14.2)",
                     "© Poren Chiang 2013, released under MIT License.",
                     "收錄立法院法律系統等資料來源之法條、修正時間與紀錄，並可快取離線瀏覽。" +
                     "在法典名稱上長按，可以將其加入我的最愛、或清除快取；" +

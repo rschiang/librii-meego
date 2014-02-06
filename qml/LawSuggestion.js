@@ -4,7 +4,7 @@ function show(text) {
 
     // Find for indices
     var locals = db.collection("indices").find(text ? {"~name": "%"+text+"%"} : undefined,
-                                               { sort: { lyID: 1 } })
+                                               { sort: { starred: -1, lyID: 1 } })
     clearItems("local")
     for (var i = 0; i < locals.length; i++) {
         var entry = locals[i]

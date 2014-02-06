@@ -87,7 +87,7 @@ ListViewPage {
 
     function updateItem(name, props) {
         var i = findItem(name)
-        if (i > 0)
+        if (i >= 0)
             listModel.set(i, props)
     }
 

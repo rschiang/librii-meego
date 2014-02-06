@@ -58,23 +58,8 @@ ListViewPage {
 
         MenuLayout {
             MenuItem { text: "在新視窗中開啟" }
-            MenuItem { text: (contextMenu.context.starred === 1) ? "從我的最愛移除" : "加入至我的最愛"
-                       onClicked: {
-                           var model = contextMenu.context
-                           if (model.category === "remote") {
-                               Entries.fetch(params, function(lyID, statute) {
-                                                 db.collection("indices")
-                                                   .update({ lyID: lyID }, { starred: 1 })
-                                                 updateItem(model.name,
-                                                            { lyID: lyID, starred: 1 })
-                                             })
-                           } else {
-                               var starred = (1 - model.starred)
-                               db.collection("indices")
-                               db.update({ lyID: model.lyID }, { starred: starred })
-                               updateItem(model.name, { starred: starred })
-                           }
-                       } }
+            MenuItem { text: contextMenu.context.starred ? "從我的最愛移除" : "加入至我的最愛"
+                       onClicked: Suggestions.toggleStar(contextMenu.context) }
             MenuItem { text: "詳細資訊" }
             MenuItem { text: "刪除"
                        visible: (contextMenu.context.category === "local")
@@ -97,10 +82,13 @@ ListViewPage {
             if (listModel.get(i).name === name)
                 return i
         }
+        return -1
     }
 
     function updateItem(name, props) {
-        listModel.set(name, props)
+        var i = findItem(name)
+        if (i > 0)
+            listModel.set(i, props)
     }
 
     function removeItem(name) {

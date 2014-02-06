@@ -52,3 +52,25 @@ function remove(model) {
     db.collection("statute").remove(selector)
     removeItem(model.name)
 }
+
+function toggleStar(model) {
+    if (model.category === "remote") {
+        Entries.fetch(params,
+                      function(lyID, statute) {
+                          db.collection("indices")
+                          db.update({ lyID: lyID }, { starred: 1 })
+                          updateItem(model.name,
+                                     { lyID: lyID,
+                                       starred: 1,
+                                       category: "local",
+                                       section: "我的最愛" })
+                      })
+    } else {
+        var starred = (1 - model.starred)
+        db.collection("indices")
+        db.update({ lyID: model.lyID }, { starred: starred })
+        updateItem(model.name,
+                   { starred: starred,
+                     section: starred == 1 ? "我的最愛" : "在手機上" })
+    }
+}

@@ -104,6 +104,7 @@ ListViewPage {
     LoadIndicator {
         id: indicator
         anchors.centerIn: parent
+        size: "large"
     }
 
     function clearItems() {

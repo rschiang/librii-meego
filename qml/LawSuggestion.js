@@ -37,10 +37,12 @@ function show(text) {
                     pushItem(entry, text)
                 }
             }
+            indicator.stop()
         }
     }
     xhr.open("GET", "http://g0v-laweasyread.herokuapp.com/api/suggestion/" + text)
     xhr.send()
+    indicator.start()
 }
 
 function remove(model) {

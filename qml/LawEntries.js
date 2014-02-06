@@ -60,13 +60,13 @@ function fetchStatute(lyID, callback) {
     xhr.send()
 }
 
-function show(params) {
+function fetch(params, callback) {
     var lyID = params.lyID
     if (lyID) {
         var statutes = db.collection("statute").find({ lyID: lyID })
         if (statutes.length) {
             var statute = JSON.parse(statutes[0].json)
-            load(statute)
+            callback(lyID, statute)
             return
         }
     }
@@ -77,8 +77,12 @@ function show(params) {
               function(info) {
                   fetchStatute(info.lyID,
                                function(statute) {
-                                   load(statute)
+                                   load(info.lyID, statute)
                                    indicator.stop()
                                })
               })
+}
+
+function show(params) {
+    fetch(params, function(lyID, statute) { load(statute) })
 }

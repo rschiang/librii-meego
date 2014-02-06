@@ -1,6 +1,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
 import "LawSuggestion.js" as Suggestions
+import "LawEntries.js" as Entries
 
 ListViewPage {
     id: page
@@ -73,6 +74,16 @@ ListViewPage {
                        visible: (contextMenu.context.category === "local")
                        onClicked: Suggestions.remove(contextMenu.context) }
         }
+    }
+
+    LoadIndicator {
+        id: indicator
+        anchors { // Indicator can't be accessed if placed in header component
+            top: parent.top
+            right: parent.right
+            margins: UiConstants.DefaultMargin
+        }
+        inverted: true
     }
 
     function removeItem(name) {

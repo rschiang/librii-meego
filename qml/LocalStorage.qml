@@ -5,7 +5,6 @@ QtObject {
     id: root
 
     function exec(it, val, tx) {
-        console.log(it)
         if ((tx = tx || This.tx))
             return tx.executeSql(it, val)
         var result
@@ -14,7 +13,6 @@ QtObject {
     }
 
     function query(it, val, tx) {
-        console.log(it)
         if ((tx = tx || This.tx))
             return tx.executeSql(it, val)
         var result

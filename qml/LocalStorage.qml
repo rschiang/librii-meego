@@ -87,21 +87,22 @@ QtObject {
 
     function update(selector, doc) {
         var values = []
-        var statement = "UPDATE" + This.colName
+        var statement = "UPDATE " + This.colName
         for (var f in doc) {
             statement += (values.length ? ", ": " SET ") + f + " = ?"
             values.push(doc[f])
         }
 
+        var selValues = []
         if (selector) {
             statement += " WHERE "
             for (var k in selector) {
-                statement += (values.length ? ", " : "") + k + " = ?"
-                values.push(selector[k])
+                statement += (selValues.length ? ", " : "") + k + " = ?"
+                selValues.push(selector[k])
             }
         }
 
-        var q = root.exec(statement, values)
+        var q = root.exec(statement, values.concat(selValues))
         return q.rowsAffected
     }
 

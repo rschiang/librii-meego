@@ -65,11 +65,14 @@ ListViewPage {
                                Entries.fetch(params, function(lyID, statute) {
                                                  db.collection("indices")
                                                    .update({ lyID: lyID }, { starred: 1 })
+                                                 updateItem(model.name,
+                                                            { lyID: lyID, starred: 1 })
                                              })
                            } else {
+                               var starred = (1 - model.starred)
                                db.collection("indices")
-                               db.update({ lyID: model.lyID },
-                                         { starred: (1 - model.starred) })
+                               db.update({ lyID: model.lyID }, { starred: starred })
+                               updateItem(model.name, { starred: starred })
                            }
                        } }
             MenuItem { text: "詳細資訊" }
@@ -89,13 +92,19 @@ ListViewPage {
         inverted: true
     }
 
-    function removeItem(name) {
+    function findItem(name) {
         for (var i = 0; i < listModel.count; i++) {
-            if (listModel.get(i).name === name) {
-                listModel.remove(i)
-                break
-            }
+            if (listModel.get(i).name === name)
+                return i
         }
+    }
+
+    function updateItem(name, props) {
+        listModel.set(name, props)
+    }
+
+    function removeItem(name) {
+        listModel.remove(findItem(name))
     }
 
     function clearItems(category) {

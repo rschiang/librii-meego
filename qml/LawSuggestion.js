@@ -55,15 +55,16 @@ function remove(model) {
 
 function toggleStar(model) {
     if (model.category === "remote") {
-        Entries.fetch(params,
+        Entries.fetch(model,
                       function(lyID, statute) {
                           db.collection("indices")
                           db.update({ lyID: lyID }, { starred: 1 })
-                          updateItem(model.name,
-                                     { lyID: lyID,
-                                       starred: 1,
-                                       category: "local",
-                                       section: "我的最愛" })
+                          updateItem(model.name, {
+                                        lyID: lyID,
+                                        starred: 1,
+                                        category: "local",
+                                        section: "我的最愛"
+                                     })
                       })
     } else {
         var starred = (1 - model.starred)

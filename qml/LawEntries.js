@@ -77,7 +77,7 @@ function fetch(params, callback) {
               function(info) {
                   fetchStatute(info.lyID,
                                function(statute) {
-                                   load(info.lyID, statute)
+                                   callback(info.lyID, statute)
                                    indicator.stop()
                                })
               })

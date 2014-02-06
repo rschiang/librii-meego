@@ -114,6 +114,10 @@ ListViewPage {
         listModel.append(item)
     }
 
+    function showError(context) {
+        // TODO
+    }
+
     function navigate(model) {
         pageStack.push("qrc:/qml/EntriesPage.qml", { modelData: model })
     }

@@ -4,22 +4,12 @@ import com.nokia.meego 1.0
 Item {
     id: root
     width: parent.width
-    height: entryContent.height + 10
+    height: entryText.height + 10
 
-    Column {
-        id: entryContent
+    Text {
+        id: entryText
         y: 5
-
-        Text {
-            id: entryTitle
-            width: root.width
-            text: "<b>" + model.article + "</b> " + model.title
-        }
-
-        Text {
-            id: entryText
-            width: root.width
-            text: model.text
-        }
+        width: root.width
+        text: "<b>" + model.article + "</b> " + model.title + "<br>" + model.text
     }
 }

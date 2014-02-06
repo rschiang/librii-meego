@@ -125,11 +125,9 @@ QtObject {
         return q.insertId
     }
 
-    function remove(selector, options) {
+    function remove(selector) {
         var values = []
-        var statement = "DELETE "
-        statement += (options && options.fields) ? options.fields.join() : "*"
-        statement += "FROM " + This.colName
+        var statement = "DELETE FROM " + This.colName
         if (selector) {
             statement += " WHERE "
             for (var k in selector) {

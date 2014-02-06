@@ -37,3 +37,11 @@ function show(text) {
     xhr.open("GET", "http://g0v-laweasyread.herokuapp.com/api/suggestion/" + text)
     xhr.send()
 }
+
+function remove(model) {
+    var selector = { lyID: model.lyID }
+    db.collection("indices").remove(selector)
+    db.collection("article").remove(selector)
+    db.collection("statute").remove(selector)
+    removeItem(model.name)
+}

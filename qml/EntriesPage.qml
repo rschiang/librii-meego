@@ -81,6 +81,7 @@ ListViewPage {
                              item.article :
                             (item.article > 0) ? ("§" + item.article) : "前言"
         item.title = item.title ? "("+ item.title + ")" : ""
+        item.text = item.text.trim().replace(/\n/g, "<br />")
         listModel.append(item)
     }
 

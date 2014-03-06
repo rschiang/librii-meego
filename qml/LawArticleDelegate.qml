@@ -6,7 +6,7 @@ Item {
     width: parent.width
     height: entryText.height + 10
 
-    Text {
+    Label {
         id: entryText
         y: 5
         width: root.width

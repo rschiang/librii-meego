@@ -20,11 +20,21 @@ function load(statute) {
     }
 }
 
+function parseJSON(str) {
+    try {
+        return JSON.parse(str)
+    }
+    catch (e) {
+        console.log("JSONParseError: " + e)
+        return {}
+    }
+}
+
 function fetchInfo(name, callback) {
     var xhr = new XMLHttpRequest()
     xhr.onreadystatechange = function() {
         if (xhr.readyState == xhr.DONE) {
-            var response = JSON.parse(xhr.responseText)
+            var response = parseJSON(xhr.responseText)
             if (response.isSuccess) {
                 var info = response.law
                 var options = { replace: true }
@@ -45,7 +55,7 @@ function fetchStatute(lyID, callback) {
     var xhr = new XMLHttpRequest()
     xhr.onreadystatechange = function() {
         if (xhr.readyState == xhr.DONE) {
-            var response = JSON.parse(xhr.responseText)
+            var response = parseJSON(xhr.responseText)
             if (response.length) {
                 var options = { replace: true }
 

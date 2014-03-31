@@ -77,9 +77,11 @@ ListViewPage {
     }
 
     function pushItem(item) {
-        item.article = isNaN(item.article) ?
-                             item.article :
-                            (item.article > 0) ? ("§" + item.article) : "前言"
+        var article_no = item.article
+        if (!article_no || article_no < 1)
+            item.article = "前言"
+        else if (!isNaN(article_no[0]))
+            item.article = "§" + article_no
         item.title = item.title ? "("+ item.title + ")" : ""
         item.text = item.text.trim().replace(/\n/g, "<br />")
         listModel.append(item)

@@ -20,8 +20,18 @@ function load(statute) {
         }
     }
 
-    articles.sort()
-    for (var j = 0; j < items.length; j++)
+    articles.sort(function (x, y) {
+                      var ax = x.split('-'), ay = y.split('-')
+                      var len = Math.min(ax.length, ay.length)
+                      for (var i = 0; i < len; i++) {
+                          var ix = ax[i], iy = ay[i]
+                          if (ix !== iy)
+                              return (parseInt(ix) < parseInt(iy)) ? -1 : 1
+                      }
+                      return 0
+                  })
+
+    for (var j = 0; j < articles.length; j++)
         pushItem(items[articles[j]])
 }
 

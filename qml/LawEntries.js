@@ -1,6 +1,7 @@
 function load(statute) {
     // Track unique entries
     var articles = []
+    var items = {}
 
     clearItems()
     for (var i = 0; i < statute.length; i++) {
@@ -11,13 +12,17 @@ function load(statute) {
             continue
         articles.push(entry.article)
 
-        pushItem({
+        items[entry.article] = {
             article: entry.article,
             title: entry.title,
             text: entry.content.trim(),
             date: entry.passed_date
-        })
+        }
     }
+
+    articles.sort()
+    for (var j = 0; j < items.length; j++)
+        pushItem(items[articles[j]])
 }
 
 function parseJSON(str) {

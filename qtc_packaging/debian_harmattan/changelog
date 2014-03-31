@@ -1,3 +1,8 @@
+libriimeego (1.14.3) unstable; urgency=low
+  * Improve compability with newer statute data.
+
+ -- Poren Chiang <ren.chiang@gmail.com>  Mon, 31 Mar 2014 10:21:10 +0800
+
 libriimeego (1.14.2) unstable; urgency=low
 
   * First release of Librii.
